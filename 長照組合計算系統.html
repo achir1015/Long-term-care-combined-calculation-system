@@ -5,195 +5,197 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>長照組合計算系統</title>
 <style>
-:root {
-  --primary: #0b6e4f;
-  --primary-light: #e1f5ee;
-  --primary-mid: #1d9e75;
-  --accent: #d85a30;
-  --warning: #ba7517;
-  --warning-light: #faeeda;
-  --danger: #a32d2d;
-  --danger-light: #fcebeb;
-  --success: #3b6d11;
-  --success-light: #eaf3de;
-  --gray: #5f5e5a;
-  --gray-light: #f1efe8;
-  --border: #d3d1c7;
-  --text: #2c2c2a;
-  --text-muted: #888780;
-  --bg: #f5f4f0;
-  --white: #ffffff;
-  --shadow: 0 1px 3px rgba(0,0,0,.08);
+:root{
+  --primary:#0b6e4f;--primary-light:#e1f5ee;--primary-mid:#1d9e75;
+  --accent:#d85a30;--warning:#ba7517;--warning-light:#faeeda;
+  --danger:#a32d2d;--danger-light:#fcebeb;
+  --success:#3b6d11;--success-light:#eaf3de;
+  --gray:#5f5e5a;--gray-light:#f1efe8;
+  --border:#d3d1c7;--text:#2c2c2a;--text-muted:#888780;
+  --bg:#f5f4f0;--white:#ffffff;--shadow:0 1px 3px rgba(0,0,0,.08);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Noto Sans TC', '微軟正黑體', '蘋方-繁', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 18px;
-  line-height: 1.6;
-}
-.page-header {
-  background: var(--primary);
-  color: #fff;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.2);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  flex-wrap: wrap;
-}
-.page-header h1 { font-size: 21px; font-weight: 600; flex: 1; }
-.page-header .version { font-size: 14px; opacity: .7; margin-left: 4px; }
-.btn-reset {
-  padding: 8px 18px;
-  background: rgba(255,255,255,.15);
-  border: 1.5px solid rgba(255,255,255,.6);
-  border-radius: 7px;
-  color: #fff;
-  font-size: 15px;
-  font-family: inherit;
-  cursor: pointer;
-  font-weight: 600;
-}
-.btn-reset:hover { background: rgba(255,255,255,.28); }
-.container { max-width: 1000px; margin: 0 auto; padding: 16px 14px 90px; }
-.card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 14px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.card-header {
-  padding: 11px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  user-select: none;
-  border-bottom: 1px solid var(--border);
-}
-.card-header h2 { font-size: 18px; font-weight: 600; flex: 1; }
-.badge { font-size: 14px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
-.badge-gov  { background: var(--success-light); color: var(--success); }
-.badge-used { background: var(--primary-light); color: var(--primary); }
-.card-header .toggle { font-size: 20px; color: var(--gray); transition: transform .2s; }
-.card-header.open .toggle { transform: rotate(180deg); }
-.card-body { padding: 14px 16px; }
-.conditions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 12px;
-}
-.field label { display: block; font-size: 15px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
-.field input, .field select {
-  width: 100%;
-  padding: 8px 11px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 17px;
-  font-family: inherit;
-  color: var(--text);
-  background: var(--white);
-  outline: none;
-}
-.field input:focus, .field select:focus { border-color: var(--primary-mid); box-shadow: 0 0 0 2px rgba(29,158,117,.15); }
-.field .hint { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
-.quota-row { display: flex; gap: 6px; }
-.quota-row input { flex: 1; }
-.quota-row button { padding: 8px 11px; background: var(--gray-light); border: 1px solid var(--border); border-radius: 6px; font-size: 15px; cursor: pointer; color: var(--text); }
-.quota-row button:hover { background: var(--border); }
-#alerts-box { display: none; }
-.alert { display: flex; gap: 10px; padding: 11px 14px; border-radius: 8px; margin-bottom: 8px; font-size: 16px; align-items: flex-start; }
-.alert-danger  { background: var(--danger-light);  color: var(--danger);  border: 1px solid #f09595; }
-.alert-warning { background: var(--warning-light); color: var(--warning); border: 1px solid #fac775; }
-.alert-info    { background: var(--primary-light); color: var(--primary); border: 1px solid #9fe1cb; }
-.alert-icon { font-size: 18px; flex-shrink: 0; }
-.svc-table { width: 100%; border-collapse: collapse; }
-.svc-table th { background: var(--gray-light); padding: 8px 11px; text-align: left; font-size: 15px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
-.svc-table th.right { text-align: right; }
-.svc-table td { padding: 8px 11px; border-bottom: 1px solid var(--gray-light); font-size: 16px; vertical-align: middle; }
-.svc-table tr:last-child td { border-bottom: none; }
-.svc-table tr.active-row   { background: var(--primary-light); }
-.svc-table tr.conflict-row { background: var(--danger-light); }
-.svc-code { font-family: monospace; font-size: 15px; background: var(--gray-light); padding: 2px 7px; border-radius: 4px; color: var(--gray); font-weight: 600; }
-.svc-name { font-weight: 500; }
-.svc-note      { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-.svc-note.warn { color: var(--warning); }
-.svc-note.gov  { color: var(--success); font-weight: 600; }
-.svc-price { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-muted); }
-.copay-zero { color: var(--success); font-weight: 600; }
-.qty-input { width: 70px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 17px; font-family: inherit; color: var(--text); }
-.qty-input:focus { border-color: var(--primary-mid); outline: none; }
-.qty-input.conflict { border-color: var(--danger); background: var(--danger-light); }
-.qty-input[disabled] { background: var(--gray-light); color: var(--text-muted); cursor: not-allowed; }
-.td-right { text-align: right; }
-#summary-bar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--white); border-top: 2px solid var(--primary);
-  padding: 10px 20px; display: flex; gap: 16px;
-  align-items: center; justify-content: center;
-  box-shadow: 0 -2px 10px rgba(0,0,0,.1); z-index: 50; flex-wrap: wrap;
-}
-.sum-item { text-align: center; }
-.sum-label { font-size: 14px; color: var(--text-muted); }
-.sum-val { font-size: 23px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.sum-val.primary { color: var(--primary); }
-.sum-val.accent  { color: var(--accent); }
-.sum-divider { width: 1px; height: 38px; background: var(--border); }
-.quota-bar-wrap { flex: 1; min-width: 180px; max-width: 300px; }
-.quota-label { font-size: 14px; color: var(--text-muted); margin-bottom: 3px; }
-.quota-bar { height: 9px; background: var(--gray-light); border-radius: 5px; overflow: hidden; }
-.quota-fill { height: 100%; border-radius: 5px; transition: width .3s; background: var(--primary-mid); }
-.quota-fill.over { background: var(--danger); }
-.quota-pct { font-size: 13px; font-weight: 600; margin-top: 2px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans TC','微軟正黑體','蘋方-繁',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:18px;line-height:1.6;}
+
+/* ===== 頁首 ===== */
+.page-header{background:var(--primary);color:#fff;padding:13px 20px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.page-header h1{font-size:21px;font-weight:600;flex:1;}
+.page-header .version{font-size:13px;opacity:.7;margin-left:4px;}
+.btn-hdr{padding:7px 16px;border-radius:7px;font-size:15px;font-family:inherit;cursor:pointer;font-weight:600;border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.15);color:#fff;}
+.btn-hdr:hover{background:rgba(255,255,255,.28);}
+.btn-hdr.manage{background:rgba(255,200,50,.2);border-color:rgba(255,200,50,.8);}
+.btn-hdr.manage:hover{background:rgba(255,200,50,.35);}
+
+.container{max-width:1000px;margin:0 auto;padding:16px 14px 90px;}
+
+/* ===== Card ===== */
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden;}
+.card-header{padding:11px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);}
+.card-header h2{font-size:18px;font-weight:600;flex:1;}
+.badge{font-size:14px;padding:3px 10px;border-radius:20px;font-weight:500;}
+.badge-gov{background:var(--success-light);color:var(--success);}
+.badge-used{background:var(--primary-light);color:var(--primary);}
+.card-header .toggle{font-size:20px;color:var(--gray);transition:transform .2s;}
+.card-header.open .toggle{transform:rotate(180deg);}
+.card-body{padding:14px 16px;}
+
+/* ===== 案主條件 ===== */
+.conditions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;}
+.field label{display:block;font-size:15px;color:var(--text-muted);margin-bottom:4px;font-weight:600;}
+.field input,.field select{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:6px;font-size:17px;font-family:inherit;color:var(--text);background:var(--white);outline:none;}
+.field input:focus,.field select:focus{border-color:var(--primary-mid);box-shadow:0 0 0 2px rgba(29,158,117,.15);}
+.field .hint{font-size:13px;color:var(--text-muted);margin-top:3px;}
+.quota-row{display:flex;gap:6px;}
+.quota-row input{flex:1;}
+.quota-row button{padding:8px 11px;background:var(--gray-light);border:1px solid var(--border);border-radius:6px;font-size:15px;cursor:pointer;color:var(--text);}
+.quota-row button:hover{background:var(--border);}
+
+/* ===== 警示 ===== */
+#alerts-box{display:none;}
+.alert{display:flex;gap:10px;padding:11px 14px;border-radius:8px;margin-bottom:8px;font-size:16px;align-items:flex-start;}
+.alert-danger{background:var(--danger-light);color:var(--danger);border:1px solid #f09595;}
+.alert-warning{background:var(--warning-light);color:var(--warning);border:1px solid #fac775;}
+.alert-info{background:var(--primary-light);color:var(--primary);border:1px solid #9fe1cb;}
+.alert-icon{font-size:18px;flex-shrink:0;}
+
+/* ===== 服務表格 ===== */
+.svc-table{width:100%;border-collapse:collapse;}
+.svc-table th{background:var(--gray-light);padding:8px 11px;text-align:left;font-size:15px;color:var(--text-muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;}
+.svc-table th.right{text-align:right;}
+.svc-table td{padding:8px 11px;border-bottom:1px solid var(--gray-light);font-size:16px;vertical-align:middle;}
+.svc-table tr:last-child td{border-bottom:none;}
+.svc-table tr.active-row{background:var(--primary-light);}
+.svc-table tr.conflict-row{background:var(--danger-light);}
+.svc-code{font-family:monospace;font-size:15px;background:var(--gray-light);padding:2px 7px;border-radius:4px;color:var(--gray);font-weight:600;}
+.svc-name{font-weight:500;}
+.svc-note{font-size:13px;color:var(--text-muted);margin-top:2px;}
+.svc-note.warn{color:var(--warning);}
+.svc-note.gov{color:var(--success);font-weight:600;}
+.svc-price{text-align:right;font-variant-numeric:tabular-nums;color:var(--text-muted);}
+.copay-zero{color:var(--success);font-weight:600;}
+.qty-input{width:70px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:17px;font-family:inherit;color:var(--text);}
+.qty-input:focus{border-color:var(--primary-mid);outline:none;}
+.qty-input.conflict{border-color:var(--danger);background:var(--danger-light);}
+.qty-input[disabled]{background:var(--gray-light);color:var(--text-muted);cursor:not-allowed;}
+.td-right{text-align:right;}
+
+/* ===== 底部摘要 ===== */
+#summary-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--primary);padding:10px 20px;display:flex;gap:16px;align-items:center;justify-content:center;box-shadow:0 -2px 10px rgba(0,0,0,.1);z-index:50;flex-wrap:wrap;}
+.sum-item{text-align:center;}
+.sum-label{font-size:14px;color:var(--text-muted);}
+.sum-val{font-size:23px;font-weight:600;font-variant-numeric:tabular-nums;}
+.sum-val.primary{color:var(--primary);}
+.sum-val.accent{color:var(--accent);}
+.sum-divider{width:1px;height:38px;background:var(--border);}
+.quota-bar-wrap{flex:1;min-width:180px;max-width:300px;}
+.quota-label{font-size:14px;color:var(--text-muted);margin-bottom:3px;}
+.quota-bar{height:9px;background:var(--gray-light);border-radius:5px;overflow:hidden;}
+.quota-fill{height:100%;border-radius:5px;transition:width .3s;background:var(--primary-mid);}
+.quota-fill.over{background:var(--danger);}
+.quota-pct{font-size:13px;font-weight:600;margin-top:2px;}
 
 /* ===== 正式列印表格 ===== */
-.print-table-card { display: none; }
-.print-table-card.show { display: block; }
-.formal-table { width: 100%; border-collapse: collapse; font-size: 17px; }
-.formal-table th { background: #e0e0e0; border: 1.5px solid #999; padding: 9px 13px; text-align: center; font-weight: 700; font-size: 16px; }
-.formal-table td { border: 1px solid #bbb; padding: 8px 13px; vertical-align: middle; }
-.formal-table td.num    { text-align: right; font-variant-numeric: tabular-nums; }
-.formal-table td.center { text-align: center; }
-.formal-table tr.aa-row td       { background: #eaf3de; }
-.formal-table tr.subtotal-row td { background: #f5e9c8; font-weight: 700; font-size: 17px; }
-.formal-table tr.total-row td    { background: #e0e0e0; font-weight: 700; font-size: 18px; }
-.print-actions {
-  display: flex; gap: 10px; padding: 12px 16px;
-  border-top: 1px solid var(--border); justify-content: flex-end;
-}
-.btn-print {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 9px 20px; background: var(--primary); color: #fff;
-  border: none; border-radius: 7px; font-size: 16px;
-  cursor: pointer; font-family: inherit; font-weight: 600;
-}
-.btn-print:hover { background: var(--primary-mid); }
-.print-note { font-size: 14px; color: var(--text-muted); padding: 6px 16px 14px; line-height: 1.8; }
+.print-table-card{display:none;}
+.print-table-card.show{display:block;}
+.formal-table{width:100%;border-collapse:collapse;font-size:17px;}
+.formal-table th{background:#e0e0e0;border:1.5px solid #999;padding:9px 13px;text-align:center;font-weight:700;font-size:16px;}
+.formal-table td{border:1px solid #bbb;padding:8px 13px;vertical-align:middle;}
+.formal-table td.num{text-align:right;font-variant-numeric:tabular-nums;}
+.formal-table td.center{text-align:center;}
+.formal-table tr.aa-row td{background:#eaf3de;}
+.formal-table tr.subtotal-row td{background:#f5e9c8;font-weight:700;font-size:17px;}
+.formal-table tr.total-row td{background:#e0e0e0;font-weight:700;font-size:18px;}
+.print-actions{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border);justify-content:flex-end;}
+.btn-print{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;font-family:inherit;font-weight:600;}
+.btn-print:hover{background:var(--primary-mid);}
+.print-note{font-size:14px;color:var(--text-muted);padding:6px 16px 14px;line-height:1.8;}
 
-@media print {
-  #summary-bar { display: none; }
-  .page-header  { position: static; }
-  .card:not(#print-card) { display: none !important; }
-  #print-card   { display: block !important; border: none; box-shadow: none; }
-  .print-actions { display: none; }
-  body { font-size: 15px; background: #fff; }
-  .formal-table { font-size: 14px; }
+/* ===================================================
+   管理面板 Modal
+   ================================================= */
+.mgr-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;overflow:auto;}
+.mgr-overlay.show{display:flex;flex-direction:column;}
+.mgr-panel{background:#fff;margin:auto;width:min(960px,98vw);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;max-height:92vh;}
+
+/* 管理面板頁首 */
+.mgr-header{background:var(--primary);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.mgr-header h2{font-size:18px;font-weight:600;flex:1;}
+.mgr-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--gray-light);flex-shrink:0;}
+.btn-mgr{padding:7px 14px;border-radius:6px;font-size:14px;font-family:inherit;cursor:pointer;font-weight:600;border:1px solid var(--border);background:#fff;color:var(--text);}
+.btn-mgr:hover{background:var(--gray-light);}
+.btn-mgr.primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+.btn-mgr.primary:hover{background:var(--primary-mid);}
+.btn-mgr.danger{background:var(--danger);color:#fff;border-color:var(--danger);}
+.btn-mgr.danger:hover{background:#c02020;}
+
+/* 管理面板過濾列 */
+.mgr-filters{display:flex;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;flex-shrink:0;align-items:center;}
+.mgr-filters input{padding:7px 11px;border:1px solid var(--border);border-radius:6px;font-size:15px;font-family:inherit;width:200px;outline:none;}
+.mgr-filters input:focus{border-color:var(--primary-mid);}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap;}
+.cat-tab{padding:5px 12px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text-muted);font-family:inherit;}
+.cat-tab:hover{background:var(--gray-light);}
+.cat-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* 管理表格 */
+.mgr-body{overflow-y:auto;flex:1;}
+.mgr-table{width:100%;border-collapse:collapse;font-size:15px;}
+.mgr-table th{position:sticky;top:0;background:#eee;border-bottom:2px solid var(--border);padding:8px 12px;text-align:left;font-weight:600;color:var(--text-muted);font-size:13px;z-index:1;}
+.mgr-table td{padding:8px 12px;border-bottom:1px solid var(--gray-light);vertical-align:middle;}
+.mgr-table tr:hover td{background:#f8f8f8;}
+.mgr-table td.price-cell{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+.mgr-table td.code-cell{font-family:monospace;font-weight:700;color:var(--primary);}
+.mgr-table td.actions{white-space:nowrap;}
+.btn-edit{padding:4px 12px;border-radius:5px;font-size:13px;cursor:pointer;border:1px solid var(--primary-mid);background:var(--primary-light);color:var(--primary);font-family:inherit;}
+.btn-edit:hover{background:var(--primary);color:#fff;}
+.btn-del{padding:4px 12px;border-radius:5px;font-size:13px;cursor:pointer;border:1px solid #f09595;background:var(--danger-light);color:var(--danger);font-family:inherit;margin-left:5px;}
+.btn-del:hover{background:var(--danger);color:#fff;}
+.flag-badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;margin:1px;font-weight:600;}
+.flag-gov{background:var(--success-light);color:var(--success);}
+.flag-pub{background:var(--warning-light);color:var(--warning);}
+.flag-resp{background:var(--primary-light);color:var(--primary);}
+.mgr-empty{padding:40px;text-align:center;color:var(--text-muted);font-size:16px;}
+
+/* ===================================================
+   新增/編輯 Form Modal
+   ================================================= */
+.form-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;overflow:auto;align-items:center;justify-content:center;}
+.form-overlay.show{display:flex;}
+.form-modal{background:#fff;border-radius:12px;width:min(620px,96vw);max-height:90vh;overflow-y:auto;}
+.form-modal-header{background:var(--primary);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:10px;border-radius:12px 12px 0 0;}
+.form-modal-header h3{font-size:17px;font-weight:600;flex:1;}
+.form-body{padding:20px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-field{display:flex;flex-direction:column;gap:4px;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{font-size:14px;color:var(--text-muted);font-weight:600;}
+.form-field input,.form-field select,.form-field textarea{padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:15px;font-family:inherit;color:var(--text);outline:none;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--primary-mid);}
+.form-field .field-hint{font-size:12px;color:var(--text-muted);}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;padding:14px 20px;border-top:1px solid var(--border);}
+.btn-save{padding:9px 24px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;font-family:inherit;font-weight:600;}
+.btn-save:hover{background:var(--primary-mid);}
+.btn-cancel{padding:9px 20px;background:#fff;color:var(--text);border:1px solid var(--border);border-radius:7px;font-size:16px;cursor:pointer;font-family:inherit;}
+.btn-cancel:hover{background:var(--gray-light);}
+
+/* ===== 列印 ===== */
+@media print{
+  #summary-bar,.page-header,#alerts-box,.card:not(#print-card){display:none!important;}
+  #print-card{display:block!important;border:none;box-shadow:none;}
+  .print-actions{display:none;}
+  body{font-size:15px;background:#fff;}
+  .formal-table{font-size:14px;}
 }
 </style>
 </head>
 <body>
 
+<!-- ===== 頁首 ===== -->
 <header class="page-header">
   <span style="font-size:24px">🏥</span>
-  <h1>台灣長照組合計算系統<span class="version">v1.1</span></h1>
-  <button class="btn-reset" onclick="resetAll()">⟳ 歸零計算</button>
+  <h1>台灣長照組合計算系統<span class="version">v2.0</span></h1>
+  <button class="btn-hdr manage" onclick="openManager()">⚙ 管理服務項目</button>
+  <button class="btn-hdr" onclick="resetAll()">⟳ 歸零計算</button>
 </header>
 
 <div class="container">
@@ -205,178 +207,50 @@ body {
     </div>
     <div class="card-body">
       <div class="conditions-grid">
-        <div class="field">
-          <label>身分別</label>
+        <div class="field"><label>身分別</label>
           <select id="incomeType" onchange="recalc()">
             <option value="一般戶">一般戶（16%）</option>
             <option value="中低收入戶">中低收入戶（5%）</option>
             <option value="低收入戶">低收入戶（免負擔）</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>失能等級</label>
+          </select></div>
+        <div class="field"><label>失能等級</label>
           <select id="disabilityLevel" onchange="onLevelChange()">
             <option value="2">第 2 級</option><option value="3">第 3 級</option>
             <option value="4">第 4 級</option><option value="5" selected>第 5 級</option>
             <option value="6">第 6 級</option><option value="7">第 7 級</option>
             <option value="8">第 8 級</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>案主年齡</label>
+          </select></div>
+        <div class="field"><label>案主年齡</label>
           <input type="number" id="clientAge" value="80" min="0" max="120" onchange="recalc()">
-          <div class="hint">AA05 需 50 歲以上</div>
-        </div>
-        <div class="field">
-          <label>確診失智症</label>
+          <div class="hint">AA05 需 50 歲以上</div></div>
+        <div class="field"><label>確診失智症</label>
           <select id="hasDementia" onchange="recalc()">
             <option value="0">否</option><option value="1">是</option>
-          </select>
-          <div class="hint">AA05 加計資格</div>
-        </div>
-        <div class="field">
-          <label>家庭照顧者年齡</label>
+          </select><div class="hint">AA05 加計資格</div></div>
+        <div class="field"><label>家庭照顧者年齡</label>
           <input type="number" id="caregiverAge" value="70" min="0" max="120" onchange="recalc()">
-          <div class="hint">AA07 需超過 75 歲</div>
-        </div>
-        <div class="field">
-          <label>BC項月額度（元）</label>
+          <div class="hint">AA07 需超過 75 歲</div></div>
+        <div class="field"><label>BC項月額度（元）</label>
           <div class="quota-row">
             <input type="number" id="monthlyQuota" value="23400" min="0" step="100" onchange="recalc()">
             <button onclick="autoFillQuota()">自動</button>
-          </div>
-          <div class="hint" id="quotaHint">依失能等級自動建議</div>
-        </div>
-        <div class="field">
-          <label>案主姓名（列印用）</label>
+          </div><div class="hint" id="quotaHint">依失能等級自動建議</div></div>
+        <div class="field"><label>案主姓名（列印用）</label>
           <input type="text" id="clientName" placeholder="（選填）" onchange="recalc()">
-          <div class="hint">顯示於正式表格</div>
-        </div>
+          <div class="hint">顯示於正式表格</div></div>
       </div>
     </div>
   </div>
 
-  <!-- 警示 -->
   <div id="alerts-box"></div>
 
-  <!-- AA -->
-  <div class="card">
-    <div class="card-header open" onclick="toggleCard(this)">
-      <span style="font-size:18px">⭐</span><h2>AA 加計項目</h2>
-      <span class="badge badge-gov">政府全額補助</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">補助額小計</th><th class="right">個人自付</th>
-      </tr></thead><tbody id="tbody-AA"></tbody></table>
-    </div>
-  </div>
-
-  <!-- BA -->
-  <div class="card">
-    <div class="card-header open" onclick="toggleCard(this)">
-      <span style="font-size:18px">🏠</span><h2>BA 居家照顧服務</h2>
-      <span class="badge badge-used" id="badge-BA">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-BA"></tbody></table>
-    </div>
-  </div>
-
-  <!-- BB -->
-  <div class="card">
-    <div class="card-header" onclick="toggleCard(this)">
-      <span style="font-size:18px">🌞</span><h2>BB 日間照顧</h2>
-      <span class="badge badge-used" id="badge-BB">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0;display:none">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-BB"></tbody></table>
-    </div>
-  </div>
-
-  <!-- BC -->
-  <div class="card">
-    <div class="card-header" onclick="toggleCard(this)">
-      <span style="font-size:18px">👨‍👩‍👧</span><h2>BC 家庭托顧</h2>
-      <span class="badge badge-used" id="badge-BC">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0;display:none">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-BC"></tbody></table>
-    </div>
-  </div>
-
-  <!-- BD -->
-  <div class="card">
-    <div class="card-header" onclick="toggleCard(this)">
-      <span style="font-size:18px">🏘️</span><h2>BD 社區式服務</h2>
-      <span class="badge badge-used" id="badge-BD">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0;display:none">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-BD"></tbody></table>
-    </div>
-  </div>
-
-  <!-- CA/CB/CD -->
-  <div class="card">
-    <div class="card-header" onclick="toggleCard(this)">
-      <span style="font-size:18px">🩺</span><h2>CA/CB/CD 專業服務</h2>
-      <span class="badge badge-used" id="badge-C">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0;display:none">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-C"></tbody></table>
-    </div>
-  </div>
-
-  <!-- DA -->
-  <div class="card">
-    <div class="card-header" onclick="toggleCard(this)">
-      <span style="font-size:18px">🚐</span><h2>DA 交通接送</h2>
-      <span class="badge badge-used" id="badge-DA">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0;display:none">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-DA"></tbody></table>
-    </div>
-  </div>
-
-  <!-- GA -->
-  <div class="card">
-    <div class="card-header" onclick="toggleCard(this)">
-      <span style="font-size:18px">💨</span><h2>GA 喘息服務</h2>
-      <span class="badge badge-used" id="badge-GA">未選</span><span class="toggle">▾</span>
-    </div>
-    <div class="card-body" style="padding:0;display:none">
-      <table class="svc-table"><thead><tr>
-        <th>代碼</th><th>服務項目</th><th class="right">單價</th>
-        <th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>
-      </tr></thead><tbody id="tbody-GA"></tbody></table>
-    </div>
-  </div>
+  <!-- 動態服務卡片 -->
+  <div id="service-cards"></div>
 
   <!-- 正式列印表格 -->
   <div class="card print-table-card" id="print-card">
     <div class="card-header open" onclick="toggleCard(this)">
-      <span style="font-size:18px">📋</span>
-      <h2>照顧組合計算表（正式列印）</h2>
-      <span class="toggle">▾</span>
+      <span style="font-size:18px">📋</span><h2>照顧組合計算表（正式列印）</h2><span class="toggle">▾</span>
     </div>
     <div class="card-body" style="padding:14px 16px 0">
       <div id="print-table-wrap"></div>
@@ -386,20 +260,13 @@ body {
       <button class="btn-print" onclick="window.print()">🖨️ 列印 / 存 PDF</button>
     </div>
   </div>
-
 </div>
 
-<!-- 底部摘要列 -->
+<!-- ===== 底部摘要 ===== -->
 <div id="summary-bar">
-  <div class="sum-item">
-    <div class="sum-label">已選服務補助總額</div>
-    <div class="sum-val primary" id="bar-total">$0</div>
-  </div>
+  <div class="sum-item"><div class="sum-label">已選服務補助總額</div><div class="sum-val primary" id="bar-total">$0</div></div>
   <div class="sum-divider"></div>
-  <div class="sum-item">
-    <div class="sum-label">個人自付合計</div>
-    <div class="sum-val accent" id="bar-copay">$0</div>
-  </div>
+  <div class="sum-item"><div class="sum-label">個人自付合計</div><div class="sum-val accent" id="bar-copay">$0</div></div>
   <div class="sum-divider"></div>
   <div class="quota-bar-wrap">
     <div class="quota-label">BC項額度 <span id="bar-quota-used">0</span> / <span id="bar-quota-total">0</span> 元</div>
@@ -407,340 +274,464 @@ body {
     <div class="quota-pct" id="bar-quota-pct" style="color:var(--text-muted)">0%</div>
   </div>
   <div class="sum-divider"></div>
-  <div class="sum-item">
-    <div class="sum-label">AA加計（政府全補）</div>
-    <div class="sum-val" style="color:var(--success);font-size:20px" id="bar-aa">$0</div>
+  <div class="sum-item"><div class="sum-label">AA加計（政府全補）</div><div class="sum-val" style="color:var(--success);font-size:20px" id="bar-aa">$0</div></div>
+</div>
+
+<!-- ===================================================
+     管理面板 Overlay
+     ================================================= -->
+<div class="mgr-overlay" id="mgr-overlay" onclick="closeMgrIfBg(event)">
+  <div class="mgr-panel" onclick="event.stopPropagation()">
+    <div class="mgr-header">
+      <span style="font-size:20px">⚙</span>
+      <h2>服務項目管理</h2>
+      <button class="btn-hdr" onclick="closeManager()" style="font-size:20px;padding:4px 10px">✕</button>
+    </div>
+    <div class="mgr-toolbar">
+      <button class="btn-mgr primary" onclick="openForm(null)">＋ 新增服務項目</button>
+      <button class="btn-mgr" onclick="exportJSON()">⬇ 匯出 JSON</button>
+      <label class="btn-mgr" style="cursor:pointer">⬆ 匯入 JSON<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label>
+      <button class="btn-mgr danger" onclick="resetToDefault()">↺ 還原預設資料</button>
+      <span style="margin-left:auto;font-size:13px;color:var(--text-muted);align-self:center" id="mgr-count"></span>
+    </div>
+    <div class="mgr-filters">
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <input type="text" id="mgr-search" placeholder="🔍 搜尋代碼或名稱…" oninput="renderMgrTable()">
+    </div>
+    <div class="mgr-body">
+      <table class="mgr-table">
+        <thead><tr>
+          <th>代碼</th><th>類別</th><th>服務項目名稱</th>
+          <th style="text-align:right">單價</th><th>特殊標記</th><th>操作</th>
+        </tr></thead>
+        <tbody id="mgr-tbody"></tbody>
+      </table>
+      <div id="mgr-empty" class="mgr-empty" style="display:none">沒有符合條件的服務項目</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     新增/編輯 Form Modal
+     ================================================= -->
+<div class="form-overlay" id="form-overlay" onclick="closeFormIfBg(event)">
+  <div class="form-modal" onclick="event.stopPropagation()">
+    <div class="form-modal-header">
+      <span style="font-size:18px">📝</span>
+      <h3 id="form-title">新增服務項目</h3>
+      <button class="btn-hdr" onclick="closeForm()" style="font-size:20px;padding:4px 10px">✕</button>
+    </div>
+    <div class="form-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>服務代碼 *</label>
+          <input type="text" id="f-code" placeholder="例：BA01" maxlength="20">
+          <div class="field-hint">修改代碼將視為新增（原代碼仍保留）</div>
+        </div>
+        <div class="form-field">
+          <label>類別 *</label>
+          <select id="f-cat">
+            <option value="AA">AA 加計</option>
+            <option value="BA">BA 居家照顧</option>
+            <option value="BB">BB 日間照顧</option>
+            <option value="BC">BC 家庭托顧</option>
+            <option value="BD">BD 社區式服務</option>
+            <option value="C">CA/CB/CD 專業服務</option>
+            <option value="DA">DA 交通接送</option>
+            <option value="GA">GA 喘息服務</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label>服務名稱 *</label>
+          <input type="text" id="f-name" placeholder="例：基本身體清潔">
+        </div>
+        <div class="form-field">
+          <label>給(支)付單價（元）*</label>
+          <input type="number" id="f-price" min="0" step="1" placeholder="0">
+        </div>
+        <div class="form-field">
+          <label>每月申請上限次數</label>
+          <input type="number" id="f-maxUnits" min="0" placeholder="不限填 0 或留空">
+        </div>
+        <div class="form-field full">
+          <label>特殊計算方式</label>
+          <select id="f-special">
+            <option value="">標準（單價 × 次數 × 負擔率）</option>
+            <option value="public50">五五分─公共服務（BA15-2/BA16-2 類型）</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>政府全額補助（AA加計）</label>
+          <select id="f-govFull">
+            <option value="0">否（一般部分負擔）</option>
+            <option value="1">是（個人自付 $0）</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>使用年度喘息額度</label>
+          <select id="f-respite">
+            <option value="0">否（計入BC月額度）</option>
+            <option value="1">是（GA喘息服務類型）</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>資格條件</label>
+          <select id="f-eligible">
+            <option value="">無限制</option>
+            <option value="aa05">AA05：年齡≥50 且 確診失智</option>
+            <option value="aa07">AA07：失能≥4級 且 照顧者>75歲</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>互斥代碼（多個以逗號分隔）</label>
+          <input type="text" id="f-conflicts" placeholder="例：BA05,BA07">
+        </div>
+        <div class="form-field full">
+          <label>衝突說明文字</label>
+          <input type="text" id="f-conflictNote" placeholder="例：已含食物加熱，不得再計BA05">
+        </div>
+        <div class="form-field full">
+          <label>備註說明</label>
+          <input type="text" id="f-note" placeholder="顯示於服務項目下方的說明文字">
+        </div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeForm()">取消</button>
+      <button class="btn-save" onclick="saveForm()">💾 儲存</button>
+    </div>
   </div>
 </div>
 
 <script>
 // ===================================================
-// 資料定義（長照給付支付基準 109.05.19）
+// 預設服務資料（純資料，不含函式；eligible 以 eligibleType 字串表示）
 // ===================================================
-const SERVICES = [
-  // AA 加計：政府全額補助，不計BC月額度
-  { code:'AA05', name:'照顧困難之服務加計',           cat:'AA', price:200, govFull:true, maxUnits:99,
-    note:'50歲以上經確診之失智症患者',
-    eligible: c => c.age>=50 && c.hasDementia },
-  { code:'AA07', name:'家庭照顧功能微弱之服務加計',   cat:'AA', price:760, govFull:true, maxUnits:1,
-    note:'失能4級以上且家庭照顧者年齡超過75歲，每月僅可申請1次',
-    eligible: c => c.disabilityLevel>=4 && c.caregiverAge>75 },
-
-  // BA 居家照顧
-  { code:'BA01',  name:'基本身體清潔',            cat:'BA', price:260 },
-  { code:'BA02',  name:'基本日常照顧',            cat:'BA', price:195 },
-  { code:'BA03',  name:'測量生命徵象',            cat:'BA', price:35  },
-  { code:'BA04',  name:'協助進食或管灌餵食',      cat:'BA', price:130, conflicts:['BA05'], conflictNote:'已含食物加熱，不得再計BA05' },
-  { code:'BA05',  name:'餐食照顧',                cat:'BA', price:310, conflicts:['BA04'], conflictNote:'不得與BA04同時申請' },
-  { code:'BA07',  name:'協助沐浴及洗頭',          cat:'BA', price:325 },
-  { code:'BA08',  name:'足部照護',                cat:'BA', price:500 },
-  { code:'BA09',  name:'到宅沐浴車-第一型',       cat:'BA', price:2200 },
-  { code:'BA09a', name:'到宅沐浴車-第二型',       cat:'BA', price:2500 },
-  { code:'BA10',  name:'翻身拍背',                cat:'BA', price:155 },
-  { code:'BA11',  name:'肢體關節活動',            cat:'BA', price:195 },
-  { code:'BA12',  name:'協助上(下)樓梯',          cat:'BA', price:130 },
-  { code:'BA13',  name:'陪同外出',                cat:'BA', price:195 },
-  { code:'BA14',  name:'陪同就醫',                cat:'BA', price:685 },
-  { code:'BA15-1',name:'家務協助（自）',           cat:'BA', price:195 },
-  { code:'BA15-2',name:'家務協助（公）',           cat:'BA', price:195, special:'public50',
-    note:'公服五五分：50%全額自付＋50%補助按身分負擔' },
-  { code:'BA16-1',name:'代購/代領/代送（自）',     cat:'BA', price:130 },
-  { code:'BA16-2',name:'代購/代領/代送（公）',     cat:'BA', price:130, special:'public50',
-    note:'公服五五分：50%全額自付＋50%補助按身分負擔' },
-  { code:'BA17a', name:'人工氣道管內分泌物抽吸',  cat:'BA', price:75  },
-  { code:'BA17b', name:'口鼻抽吸',                cat:'BA', price:65  },
-  { code:'BA17c', name:'管路(尿管、鼻胃管)清潔',  cat:'BA', price:50  },
-  { code:'BA17d', name:'甘油球通便、血糖機驗血糖',cat:'BA', price:50  },
-  { code:'BA17e', name:'依指示置入藥盒',          cat:'BA', price:50  },
-  { code:'BA18',  name:'安全看視',                cat:'BA', price:200 },
-  { code:'BA20',  name:'陪伴服務',                cat:'BA', price:175 },
-  { code:'BA22',  name:'巡視服務',                cat:'BA', price:130 },
-  { code:'BA23',  name:'協助洗頭',                cat:'BA', price:200 },
-  { code:'BA24',  name:'協助排泄',                cat:'BA', price:220 },
-
-  // BB 日間照顧
-  { code:'BB01', name:'日間照顧(全日)-第1型', cat:'BB', price:675  },
-  { code:'BB02', name:'日間照顧(半日)-第1型', cat:'BB', price:340  },
-  { code:'BB03', name:'日間照顧(全日)-第2型', cat:'BB', price:840  },
-  { code:'BB04', name:'日間照顧(半日)-第2型', cat:'BB', price:420  },
-  { code:'BB05', name:'日間照顧(全日)-第3型', cat:'BB', price:920  },
-  { code:'BB06', name:'日間照顧(半日)-第3型', cat:'BB', price:460  },
-  { code:'BB07', name:'日間照顧(全日)-第4型', cat:'BB', price:1045 },
-  { code:'BB08', name:'日間照顧(半日)-第4型', cat:'BB', price:525  },
-  { code:'BB09', name:'日間照顧(全日)-第5型', cat:'BB', price:1130 },
-  { code:'BB10', name:'日間照顧(半日)-第5型', cat:'BB', price:565  },
-  { code:'BB11', name:'日間照顧(全日)-第6型', cat:'BB', price:1210 },
-  { code:'BB12', name:'日間照顧(半日)-第6型', cat:'BB', price:605  },
-  { code:'BB13', name:'日間照顧(全日)-第7型', cat:'BB', price:1285 },
-  { code:'BB14', name:'日間照顧(半日)-第7型', cat:'BB', price:645  },
-
-  // BC 家庭托顧
-  { code:'BC01', name:'家庭托顧(全日)-第1型', cat:'BC', price:625  },
-  { code:'BC02', name:'家庭托顧(半日)-第1型', cat:'BC', price:315  },
-  { code:'BC03', name:'家庭托顧(全日)-第2型', cat:'BC', price:760  },
-  { code:'BC04', name:'家庭托顧(半日)-第2型', cat:'BC', price:380  },
-  { code:'BC05', name:'家庭托顧(全日)-第3型', cat:'BC', price:785  },
-  { code:'BC06', name:'家庭托顧(半日)-第3型', cat:'BC', price:395  },
-  { code:'BC07', name:'家庭托顧(全日)-第4型', cat:'BC', price:880  },
-  { code:'BC08', name:'家庭托顧(半日)-第4型', cat:'BC', price:440  },
-  { code:'BC09', name:'家庭托顧(全日)-第5型', cat:'BC', price:960  },
-  { code:'BC10', name:'家庭托顧(半日)-第5型', cat:'BC', price:480  },
-  { code:'BC11', name:'家庭托顧(全日)-第6型', cat:'BC', price:980  },
-  { code:'BC12', name:'家庭托顧(半日)-第6型', cat:'BC', price:490  },
-  { code:'BC13', name:'家庭托顧(全日)-第7型', cat:'BC', price:1040 },
-  { code:'BC14', name:'家庭托顧(半日)-第7型', cat:'BC', price:520  },
-
-  // BD 社區式服務
-  { code:'BD01', name:'社區式協助沐浴',         cat:'BD', price:200 },
-  { code:'BD02', name:'社區式晚餐',             cat:'BD', price:100 },
-  { code:'BD03', name:'社區式服務交通接送',     cat:'BD', price:100 },
-
-  // CA/CB/CD 專業服務
-  { code:'CA01', name:'IADLs復能照護-居家',           cat:'C', price:4500 },
-  { code:'CA02', name:'IADLs復能照護-社區',           cat:'C', price:4050 },
-  { code:'CA03', name:'ADLs復能照護-居家',            cat:'C', price:4500 },
-  { code:'CA04', name:'ADLs復能照護-社區',            cat:'C', price:4050 },
-  { code:'CA05', name:'ISP擬定與執行-居家',           cat:'C', price:6000 },
-  { code:'CA06', name:'ISP擬定與執行-社區',           cat:'C', price:4000 },
-  { code:'CB01', name:'營養照護',                     cat:'C', price:4000 },
-  { code:'CB02', name:'進食與吞嚥照護',               cat:'C', price:9000 },
-  { code:'CB03', name:'困擾行為',                     cat:'C', price:4500 },
-  { code:'CB04', name:'臥床或長期活動受限照護',       cat:'C', price:9000 },
-  { code:'CC01', name:'居家環境安全或無障礙空間規劃', cat:'C', price:2000 },
-  { code:'CD01', name:'居家護理訪視',                 cat:'C', price:1300 },
-  { code:'CD02', name:'居家護理指導與諮詢',           cat:'C', price:6000 },
-
-  // DA 交通接送
-  { code:'DA01', name:'交通接送（單趟）', cat:'DA', price:1840 },
-
-  // GA 喘息服務（年度喘息額度，不計入BC月額）
-  { code:'GA01', name:'居家喘息服務-全日',                        cat:'GA', price:2310, useRespiteQuota:true },
-  { code:'GA02', name:'居家喘息服務-半日',                        cat:'GA', price:1155, useRespiteQuota:true },
-  { code:'GA03', name:'日間照顧中心喘息服務-全日',                cat:'GA', price:1250, useRespiteQuota:true },
-  { code:'GA04', name:'日間照顧中心喘息服務-半日',                cat:'GA', price:625,  useRespiteQuota:true },
-  { code:'GA05', name:'機構住宿式喘息服務',                       cat:'GA', price:2310, useRespiteQuota:true },
-  { code:'GA06', name:'小規模多機能服務-夜間喘息（含交通接送）', cat:'GA', price:2000, useRespiteQuota:true },
-  { code:'GA07', name:'巷弄長照站臨托',                           cat:'GA', price:170,  useRespiteQuota:true },
+const DEFAULT_SERVICES_DATA = [
+  {code:'AA05',name:'照顧困難之服務加計',           cat:'AA',price:200,govFull:true,special:'',useRespiteQuota:false,maxUnits:99,conflicts:[],conflictNote:'',eligibleType:'aa05',note:'50歲以上經確診之失智症患者'},
+  {code:'AA07',name:'家庭照顧功能微弱之服務加計',   cat:'AA',price:760,govFull:true,special:'',useRespiteQuota:false,maxUnits:1, conflicts:[],conflictNote:'',eligibleType:'aa07',note:'失能4級以上且家庭照顧者年齡超過75歲，每月僅可申請1次'},
+  {code:'BA01',name:'基本身體清潔',           cat:'BA',price:260, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA02',name:'基本日常照顧',           cat:'BA',price:195, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA03',name:'測量生命徵象',           cat:'BA',price:35,  govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA04',name:'協助進食或管灌餵食',     cat:'BA',price:130, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:['BA05'],conflictNote:'已含食物加熱，不得再計BA05',eligibleType:'',note:''},
+  {code:'BA05',name:'餐食照顧',               cat:'BA',price:310, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:['BA04'],conflictNote:'不得與BA04同時申請',eligibleType:'',note:''},
+  {code:'BA07',name:'協助沐浴及洗頭',         cat:'BA',price:325, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA08',name:'足部照護',               cat:'BA',price:500, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA09',name:'到宅沐浴車-第一型',      cat:'BA',price:2200,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA09a',name:'到宅沐浴車-第二型',     cat:'BA',price:2500,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA10',name:'翻身拍背',               cat:'BA',price:155, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA11',name:'肢體關節活動',           cat:'BA',price:195, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA12',name:'協助上(下)樓梯',         cat:'BA',price:130, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA13',name:'陪同外出',               cat:'BA',price:195, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA14',name:'陪同就醫',               cat:'BA',price:685, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA15-1',name:'家務協助（自）',        cat:'BA',price:195, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA15-2',name:'家務協助（公）',        cat:'BA',price:195, govFull:false,special:'public50',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:'公服五五分：50%全額自付＋50%補助按身分負擔'},
+  {code:'BA16-1',name:'代購/代領/代送（自）',  cat:'BA',price:130, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA16-2',name:'代購/代領/代送（公）',  cat:'BA',price:130, govFull:false,special:'public50',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:'公服五五分：50%全額自付＋50%補助按身分負擔'},
+  {code:'BA17a',name:'人工氣道管內分泌物抽吸',cat:'BA',price:75,  govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA17b',name:'口鼻抽吸',              cat:'BA',price:65,  govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA17c',name:'管路(尿管、鼻胃管)清潔',cat:'BA',price:50,  govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA17d',name:'甘油球通便、血糖機驗血糖',cat:'BA',price:50,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA17e',name:'依指示置入藥盒',        cat:'BA',price:50,  govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA18',name:'安全看視',               cat:'BA',price:200, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA20',name:'陪伴服務',               cat:'BA',price:175, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA22',name:'巡視服務',               cat:'BA',price:130, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA23',name:'協助洗頭',               cat:'BA',price:200, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BA24',name:'協助排泄',               cat:'BA',price:220, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB01',name:'日間照顧(全日)-第1型',cat:'BB',price:675, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB02',name:'日間照顧(半日)-第1型',cat:'BB',price:340, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB03',name:'日間照顧(全日)-第2型',cat:'BB',price:840, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB04',name:'日間照顧(半日)-第2型',cat:'BB',price:420, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB05',name:'日間照顧(全日)-第3型',cat:'BB',price:920, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB06',name:'日間照顧(半日)-第3型',cat:'BB',price:460, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB07',name:'日間照顧(全日)-第4型',cat:'BB',price:1045,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB08',name:'日間照顧(半日)-第4型',cat:'BB',price:525, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB09',name:'日間照顧(全日)-第5型',cat:'BB',price:1130,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB10',name:'日間照顧(半日)-第5型',cat:'BB',price:565, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB11',name:'日間照顧(全日)-第6型',cat:'BB',price:1210,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB12',name:'日間照顧(半日)-第6型',cat:'BB',price:605, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB13',name:'日間照顧(全日)-第7型',cat:'BB',price:1285,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BB14',name:'日間照顧(半日)-第7型',cat:'BB',price:645, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC01',name:'家庭托顧(全日)-第1型',cat:'BC',price:625, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC02',name:'家庭托顧(半日)-第1型',cat:'BC',price:315, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC03',name:'家庭托顧(全日)-第2型',cat:'BC',price:760, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC04',name:'家庭托顧(半日)-第2型',cat:'BC',price:380, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC05',name:'家庭托顧(全日)-第3型',cat:'BC',price:785, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC06',name:'家庭托顧(半日)-第3型',cat:'BC',price:395, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC07',name:'家庭托顧(全日)-第4型',cat:'BC',price:880, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC08',name:'家庭托顧(半日)-第4型',cat:'BC',price:440, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC09',name:'家庭托顧(全日)-第5型',cat:'BC',price:960, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC10',name:'家庭托顧(半日)-第5型',cat:'BC',price:480, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC11',name:'家庭托顧(全日)-第6型',cat:'BC',price:980, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC12',name:'家庭托顧(半日)-第6型',cat:'BC',price:490, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC13',name:'家庭托顧(全日)-第7型',cat:'BC',price:1040,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BC14',name:'家庭托顧(半日)-第7型',cat:'BC',price:520, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BD01',name:'社區式協助沐浴',   cat:'BD',price:200, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BD02',name:'社區式晚餐',       cat:'BD',price:100, govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'BD03',name:'社區式服務交通接送',cat:'BD',price:100,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CA01',name:'IADLs復能照護-居家',    cat:'C',price:4500,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CA02',name:'IADLs復能照護-社區',    cat:'C',price:4050,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CA03',name:'ADLs復能照護-居家',     cat:'C',price:4500,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CA04',name:'ADLs復能照護-社區',     cat:'C',price:4050,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CA05',name:'ISP擬定與執行-居家',    cat:'C',price:6000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CA06',name:'ISP擬定與執行-社區',    cat:'C',price:4000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CB01',name:'營養照護',              cat:'C',price:4000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CB02',name:'進食與吞嚥照護',        cat:'C',price:9000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CB03',name:'困擾行為',              cat:'C',price:4500,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CB04',name:'臥床或長期活動受限照護',cat:'C',price:9000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CC01',name:'居家環境安全或無障礙空間規劃',cat:'C',price:2000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CD01',name:'居家護理訪視',          cat:'C',price:1300,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'CD02',name:'居家護理指導與諮詢',    cat:'C',price:6000,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'DA01',name:'交通接送（單趟）',       cat:'DA',price:1840,govFull:false,special:'',useRespiteQuota:false,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA01',name:'居家喘息服務-全日',      cat:'GA',price:2310,govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA02',name:'居家喘息服務-半日',      cat:'GA',price:1155,govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA03',name:'日間照顧中心喘息服務-全日',cat:'GA',price:1250,govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA04',name:'日間照顧中心喘息服務-半日',cat:'GA',price:625, govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA05',name:'機構住宿式喘息服務',    cat:'GA',price:2310,govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA06',name:'小規模多機能服務-夜間喘息（含交通接送）',cat:'GA',price:2000,govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
+  {code:'GA07',name:'巷弄長照站臨托',        cat:'GA',price:170, govFull:false,special:'',useRespiteQuota:true,maxUnits:0,conflicts:[],conflictNote:'',eligibleType:'',note:''},
 ];
 
-const QUOTA_BY_LEVEL = { 2:10020,3:16680,4:16680,5:23400,6:23400,7:36180,8:36180 };
-const INCOME_RATE    = { '一般戶':0.16,'中低收入戶':0.05,'低收入戶':0 };
-const qtyMap = {};
+// ===================================================
+// 儲存 Key
+// ===================================================
+const STORAGE_KEY = 'ltc_services_v2';
 
 // ===================================================
-// 計算每次部分負擔
-// 以日為計算單位，小數點無條件捨去
+// 從 localStorage 載入，fallback 到預設
 // ===================================================
+function loadServicesData() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    if (s) { const d=JSON.parse(s); if(Array.isArray(d)&&d.length) return d; }
+  } catch(e) {}
+  return DEFAULT_SERVICES_DATA.map(s=>({...s}));
+}
+
+// 儲存到 localStorage
+function saveServicesData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(SERVICES_DATA));
+}
+
+// eligibleType 字串 → 函式
+function buildEligible(type) {
+  if (type==='aa05') return c=>c.age>=50&&c.hasDementia;
+  if (type==='aa07') return c=>c.disabilityLevel>=4&&c.caregiverAge>75;
+  return null;
+}
+
+// 純資料陣列 → 加上 eligible 函式的執行陣列
+function buildServices(data) {
+  return data.map(d=>({
+    ...d,
+    eligible: buildEligible(d.eligibleType),
+    conflicts: Array.isArray(d.conflicts) ? d.conflicts : [],
+  }));
+}
+
+// 可變的純資料（存入 localStorage）
+let SERVICES_DATA = loadServicesData();
+// 含函式的計算用陣列
+let SERVICES = buildServices(SERVICES_DATA);
+
+// ===================================================
+// 類別設定
+// ===================================================
+const CAT_META = {
+  AA: {label:'AA 加計',      icon:'⭐', defaultOpen:true,  special:true },
+  BA: {label:'BA 居家照顧',  icon:'🏠', defaultOpen:true,  special:false},
+  BB: {label:'BB 日間照顧',  icon:'🌞', defaultOpen:false, special:false},
+  BC: {label:'BC 家庭托顧',  icon:'👨‍👩‍👧', defaultOpen:false, special:false},
+  BD: {label:'BD 社區式服務',icon:'🏘️', defaultOpen:false, special:false},
+  C:  {label:'CA/CB/CD 專業',icon:'🩺', defaultOpen:false, special:false},
+  DA: {label:'DA 交通接送',  icon:'🚐', defaultOpen:false, special:false},
+  GA: {label:'GA 喘息服務',  icon:'💨', defaultOpen:false, special:false},
+};
+
+// ===================================================
+// 計算邏輯
+// ===================================================
+const QUOTA_BY_LEVEL={2:10020,3:16680,4:16680,5:23400,6:23400,7:36180,8:36180};
+const INCOME_RATE={'一般戶':0.16,'中低收入戶':0.05,'低收入戶':0};
+const qtyMap={};
+
 function calcCopayPerUnit(svc, incomeType) {
   if (svc.govFull) return 0;
-  const rate = INCOME_RATE[incomeType] || 0;
-  if (svc.special === 'public50') {
-    // BA15-2 / BA16-2 五五分計算：
-    //   非補助半部 floor(P/2)      = 個人全額自付
-    //   補助半部   floor(P/2×rate) = 依身分別部分負擔
-    const half = svc.price / 2;
-    return Math.floor(half) + Math.floor(half * rate);
+  const rate=INCOME_RATE[incomeType]||0;
+  if (svc.special==='public50') {
+    const half=svc.price/2;
+    return Math.floor(half)+Math.floor(half*rate);
   }
-  return Math.floor(svc.price * rate);
+  return Math.floor(svc.price*rate);
 }
 
 function getConditions() {
   return {
     incomeType:      document.getElementById('incomeType').value,
     disabilityLevel: parseInt(document.getElementById('disabilityLevel').value),
-    age:             parseInt(document.getElementById('clientAge').value) || 0,
-    hasDementia:     document.getElementById('hasDementia').value === '1',
-    caregiverAge:    parseInt(document.getElementById('caregiverAge').value) || 0,
-    quota:           parseInt(document.getElementById('monthlyQuota').value) || 0,
+    age:             parseInt(document.getElementById('clientAge').value)||0,
+    hasDementia:     document.getElementById('hasDementia').value==='1',
+    caregiverAge:    parseInt(document.getElementById('caregiverAge').value)||0,
+    quota:           parseInt(document.getElementById('monthlyQuota').value)||0,
     clientName:      document.getElementById('clientName').value.trim(),
   };
 }
 
 // ===================================================
-// 建立服務輸入列
+// 動態建立服務卡片區塊
 // ===================================================
+function renderServiceCards() {
+  const c = getConditions();
+  const cats = Object.keys(CAT_META);
+  const container = document.getElementById('service-cards');
+  container.innerHTML = cats.map(cat => {
+    const meta = CAT_META[cat];
+    const items = SERVICES.filter(s=>s.cat===cat);
+    if (!items.length) return '';
+    const badgeId = 'badge-'+cat;
+    const bodyId  = 'body-'+cat;
+    const isOpen  = meta.defaultOpen;
+    const thCols  = cat==='AA'
+      ? '<th>代碼</th><th>服務項目</th><th class="right">單價</th><th class="right">次數</th><th class="right">補助額小計</th><th class="right">個人自付</th>'
+      : '<th>代碼</th><th>服務項目</th><th class="right">單價</th><th class="right">次數</th><th class="right">自付/次</th><th class="right">小計自付</th>';
+    const badge = meta.special
+      ? `<span class="badge badge-gov">政府全額補助</span>`
+      : `<span class="badge badge-used" id="${badgeId}">未選</span>`;
+    return `<div class="card">
+      <div class="card-header ${isOpen?'open':''}" onclick="toggleCard(this)">
+        <span style="font-size:18px">${meta.icon}</span><h2>${meta.label}</h2>${badge}<span class="toggle">▾</span>
+      </div>
+      <div class="card-body" style="padding:0;${isOpen?'':'display:none'}">
+        <table class="svc-table"><thead><tr>${thCols}</tr></thead>
+        <tbody id="tbody-${cat}"></tbody></table>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function buildRow(svc, c) {
-  const qty   = qtyMap[svc.code] || 0;
-  const cU    = calcCopayPerUnit(svc, c.incomeType);
-  const totC  = cU * qty;
-  const totQ  = svc.price * qty;
-  const hasConflict = (svc.conflicts||[]).some(x=>(qtyMap[x]||0)>0);
-  const inelig      = svc.eligible && !svc.eligible(c);
-  const trCls = qty>0 ? (hasConflict?'conflict-row':'active-row') : '';
-  const dis   = inelig ? 'disabled' : '';
-  const qCls  = hasConflict ? 'qty-input conflict' : 'qty-input';
-  const maxA  = svc.maxUnits ? `max="${svc.maxUnits}"` : '';
-
-  let copayD = svc.govFull ? `<span class="copay-zero">$0 ★</span>` : `$${cU.toLocaleString()}`;
-  let subD   = svc.govFull
-    ? `<span class="copay-zero">$0</span>`
-    : (qty>0 ? `<strong>$${totC.toLocaleString()}</strong>` : `$${totC.toLocaleString()}`);
-
-  let note = '';
-  if (inelig && svc.note)              note += `<div class="svc-note warn">⚠ 資格不符：${svc.note}</div>`;
-  else if (svc.note)                   note += `<div class="svc-note ${svc.govFull?'gov':''}">${svc.govFull?'★ ':''}${svc.note}</div>`;
-  if (hasConflict && svc.conflictNote) note += `<div class="svc-note warn">⛔ ${svc.conflictNote}</div>`;
-
-  const inp = `<input class="${qCls}" type="number" min="0" ${maxA} value="${qty}" ${dis} id="qty-${svc.code}" onchange="onQtyChange('${svc.code}',this.value)">`;
-
-  if (svc.cat === 'AA') {
-    const subQ = qty>0 ? `<span style="color:var(--success)">$${totQ.toLocaleString()}</span>` : '$0';
+  const qty   = qtyMap[svc.code]||0;
+  const cU    = calcCopayPerUnit(svc,c.incomeType);
+  const totC  = cU*qty, totQ=svc.price*qty;
+  const hasConflict=(svc.conflicts||[]).some(x=>(qtyMap[x]||0)>0);
+  const inelig=svc.eligible&&!svc.eligible(c);
+  const trCls = qty>0?(hasConflict?'conflict-row':'active-row'):'';
+  const dis   = inelig?'disabled':'';
+  const qCls  = hasConflict?'qty-input conflict':'qty-input';
+  const maxA  = svc.maxUnits>0?`max="${svc.maxUnits}"`:'';
+  const copD  = svc.govFull?`<span class="copay-zero">$0 ★</span>`:`$${cU.toLocaleString()}`;
+  const subD  = svc.govFull?`<span class="copay-zero">$0</span>`:(qty>0?`<strong>$${totC.toLocaleString()}</strong>`:`$${totC.toLocaleString()}`);
+  let note='';
+  if (inelig&&svc.note) note+=`<div class="svc-note warn">⚠ 資格不符：${svc.note}</div>`;
+  else if (svc.note)    note+=`<div class="svc-note ${svc.govFull?'gov':''}">${svc.govFull?'★ ':''}${svc.note}</div>`;
+  if (hasConflict&&svc.conflictNote) note+=`<div class="svc-note warn">⛔ ${svc.conflictNote}</div>`;
+  const inp=`<input class="${qCls}" type="number" min="0" ${maxA} value="${qty}" ${dis} id="qty-${svc.code}" onchange="onQtyChange('${svc.code}',this.value)">`;
+  if (svc.cat==='AA') {
+    const subQ=qty>0?`<span style="color:var(--success)">$${totQ.toLocaleString()}</span>`:'$0';
     return `<tr class="${trCls}"><td><span class="svc-code">${svc.code}</span></td><td><div class="svc-name">${svc.name}</div>${note}</td><td class="svc-price">$${svc.price}</td><td class="td-right">${inp}</td><td class="td-right">${subQ}</td><td class="td-right">${subD}</td></tr>`;
   }
-  return `<tr class="${trCls}"><td><span class="svc-code">${svc.code}</span></td><td><div class="svc-name">${svc.name}</div>${note}</td><td class="svc-price">$${svc.price}</td><td class="td-right">${inp}</td><td style="text-align:right">${copayD}</td><td class="td-right">${subD}</td></tr>`;
+  return `<tr class="${trCls}"><td><span class="svc-code">${svc.code}</span></td><td><div class="svc-name">${svc.name}</div>${note}</td><td class="svc-price">$${svc.price}</td><td class="td-right">${inp}</td><td style="text-align:right">${copD}</td><td class="td-right">${subD}</td></tr>`;
 }
 
 function renderTables() {
-  const c = getConditions();
-  ['AA','BA','BB','BC','BD','C','DA','GA'].forEach(cat => {
-    const tb = document.getElementById('tbody-'+cat);
-    if (tb) tb.innerHTML = SERVICES.filter(s=>s.cat===cat).map(s=>buildRow(s,c)).join('');
+  const c=getConditions();
+  Object.keys(CAT_META).forEach(cat=>{
+    const tb=document.getElementById('tbody-'+cat);
+    if(tb) tb.innerHTML=SERVICES.filter(s=>s.cat===cat).map(s=>buildRow(s,c)).join('');
   });
 }
 
 // ===================================================
-// 更新底部摘要列
+// 底部摘要
 // ===================================================
 function updateSummaryBar(c) {
-  let totS=0, totCp=0, aaS=0, bcU=0;
-  SERVICES.forEach(s => {
-    const qty = qtyMap[s.code]||0; if (!qty) return;
-    const cu  = calcCopayPerUnit(s,c.incomeType);
-    const lQ  = s.price*qty, lCp = cu*qty;
-    if (s.govFull) { aaS += lQ; }
-    else { totCp += lCp; totS += lQ; if (!s.useRespiteQuota) bcU += lQ; }
+  let totS=0,totCp=0,aaS=0,bcU=0;
+  SERVICES.forEach(s=>{
+    const qty=qtyMap[s.code]||0; if(!qty) return;
+    const cu=calcCopayPerUnit(s,c.incomeType),lQ=s.price*qty,lCp=cu*qty;
+    if(s.govFull){aaS+=lQ;}else{totCp+=lCp;totS+=lQ;if(!s.useRespiteQuota)bcU+=lQ;}
   });
-  document.getElementById('bar-total').textContent = '$'+totS.toLocaleString();
-  document.getElementById('bar-copay').textContent  = '$'+totCp.toLocaleString();
-  document.getElementById('bar-aa').textContent     = '$'+aaS.toLocaleString();
-  document.getElementById('bar-quota-used').textContent  = bcU.toLocaleString();
-  document.getElementById('bar-quota-total').textContent = c.quota.toLocaleString();
-  const pct  = c.quota>0 ? Math.round(bcU/c.quota*100) : 0;
-  const fill = document.getElementById('quota-fill');
-  fill.style.width = Math.min(pct,100)+'%';
-  const pEl = document.getElementById('bar-quota-pct');
-  if (pct>100) { fill.className='quota-fill over'; pEl.style.color='var(--danger)'; pEl.textContent=`⚠ ${pct}% 超出額度`; }
-  else { fill.className='quota-fill'; pEl.style.color=pct>=90?'var(--warning)':'var(--text-muted)'; pEl.textContent=`${pct}%`; }
+  document.getElementById('bar-total').textContent='$'+totS.toLocaleString();
+  document.getElementById('bar-copay').textContent='$'+totCp.toLocaleString();
+  document.getElementById('bar-aa').textContent='$'+aaS.toLocaleString();
+  document.getElementById('bar-quota-used').textContent=bcU.toLocaleString();
+  document.getElementById('bar-quota-total').textContent=c.quota.toLocaleString();
+  const pct=c.quota>0?Math.round(bcU/c.quota*100):0;
+  const fill=document.getElementById('quota-fill');
+  fill.style.width=Math.min(pct,100)+'%';
+  const pEl=document.getElementById('bar-quota-pct');
+  if(pct>100){fill.className='quota-fill over';pEl.style.color='var(--danger)';pEl.textContent=`⚠ ${pct}% 超出額度`;}
+  else{fill.className='quota-fill';pEl.style.color=pct>=90?'var(--warning)':'var(--text-muted)';pEl.textContent=`${pct}%`;}
 }
 
 // ===================================================
-// 建立正式列印表格
-// 格式：AA加計 → 照顧及專業服務小計 → 喘息服務小計 → 總計
+// 正式列印表格
 // ===================================================
 function buildPrintTable(c) {
-  const sel   = SERVICES.filter(s=>(qtyMap[s.code]||0)>0);
-  const pCard = document.getElementById('print-card');
-  if (!sel.length) { pCard.className='card print-table-card'; return; }
-  pCard.className = 'card print-table-card show';
-
-  const aaRows   = sel.filter(s=>s.govFull);
-  const careRows = sel.filter(s=>!s.govFull && !s.useRespiteQuota);
-  const respRows = sel.filter(s=>s.useRespiteQuota);
-
-  const nameCol = c.clientName ? c.clientName+'的部分<br>負擔金額' : '部分<br>負擔金額';
-
-  let h = `<table class="formal-table"><thead><tr>
-    <th style="width:36%">照顧組合項目</th>
-    <th style="width:12%">給(支)付<br>價格</th>
-    <th style="width:11%">給(支)付<br>單位(個)</th>
-    <th style="width:12%">小計</th>
-    <th style="width:17%">${nameCol}</th>
-  </tr></thead><tbody>`;
-
-  // AA 區（政府全額補助）
-  if (aaRows.length) {
-    aaRows.forEach(s => {
-      const q=qtyMap[s.code]||0;
-      h+=`<tr class="aa-row"><td>${s.name}<br><small style="color:#3b6d11;font-size:13px">★ 政府全額補助</small></td><td class="num">${s.price.toLocaleString()}</td><td class="center">${q}</td><td class="num">${(s.price*q).toLocaleString()}</td><td class="num" style="color:#3b6d11;font-weight:700">0</td></tr>`;
-    });
-    const aaT = aaRows.reduce((a,s)=>a+s.price*(qtyMap[s.code]||0),0);
+  const sel=SERVICES.filter(s=>(qtyMap[s.code]||0)>0);
+  const pCard=document.getElementById('print-card');
+  if(!sel.length){pCard.className='card print-table-card';return;}
+  pCard.className='card print-table-card show';
+  const aaRows=sel.filter(s=>s.govFull),careRows=sel.filter(s=>!s.govFull&&!s.useRespiteQuota),respRows=sel.filter(s=>s.useRespiteQuota);
+  const nCol=c.clientName?c.clientName+'的部分<br>負擔金額':'部分<br>負擔金額';
+  let h=`<table class="formal-table"><thead><tr><th style="width:36%">照顧組合項目</th><th style="width:12%">給(支)付<br>價格</th><th style="width:11%">給(支)付<br>單位(個)</th><th style="width:12%">小計</th><th style="width:17%">${nCol}</th></tr></thead><tbody>`;
+  if(aaRows.length){
+    aaRows.forEach(s=>{const q=qtyMap[s.code]||0;h+=`<tr class="aa-row"><td>${s.name}<br><small style="color:#3b6d11;font-size:13px">★ 政府全額補助</small></td><td class="num">${s.price.toLocaleString()}</td><td class="center">${q}</td><td class="num">${(s.price*q).toLocaleString()}</td><td class="num" style="color:#3b6d11;font-weight:700">0</td></tr>`;});
+    const aaT=aaRows.reduce((a,s)=>a+s.price*(qtyMap[s.code]||0),0);
     h+=`<tr class="subtotal-row"><td colspan="3" style="text-align:center">照顧管理及政策鼓勵服務合計</td><td class="num">${aaT.toLocaleString()}</td><td class="num" style="color:#3b6d11">0</td></tr>`;
   }
-
-  // 照顧及專業服務
-  let cT=0, cCp=0;
-  if (careRows.length) {
-    careRows.forEach(s => {
-      const q=qtyMap[s.code]||0, cu=calcCopayPerUnit(s,c.incomeType);
-      const st=s.price*q, cp=cu*q; cT+=st; cCp+=cp;
-      const extra = s.special==='public50' ? `<br><small style="color:#888;font-size:13px">（公服五五分計算）</small>` : '';
-      h+=`<tr><td>${s.name}${extra}</td><td class="num">${s.price.toLocaleString()}</td><td class="center">${q}</td><td class="num">${st.toLocaleString()}</td><td class="num">${cp.toLocaleString()}</td></tr>`;
-    });
+  let cT=0,cCp=0;
+  if(careRows.length){
+    careRows.forEach(s=>{const q=qtyMap[s.code]||0,cu=calcCopayPerUnit(s,c.incomeType),st=s.price*q,cp=cu*q;cT+=st;cCp+=cp;const ex=s.special==='public50'?`<br><small style="color:#888;font-size:13px">（公服五五分）</small>`:'';h+=`<tr><td>${s.name}${ex}</td><td class="num">${s.price.toLocaleString()}</td><td class="center">${q}</td><td class="num">${st.toLocaleString()}</td><td class="num">${cp.toLocaleString()}</td></tr>`;});
     h+=`<tr class="subtotal-row"><td colspan="3" style="text-align:center">照顧及專業服務小計</td><td class="num">${cT.toLocaleString()}</td><td class="num"></td></tr>`;
   }
-
-  // 喘息服務
-  let rT=0, rCp=0;
-  if (respRows.length) {
-    respRows.forEach(s => {
-      const q=qtyMap[s.code]||0, cu=calcCopayPerUnit(s,c.incomeType);
-      const st=s.price*q, cp=cu*q; rT+=st; rCp+=cp;
-      h+=`<tr><td>${s.name}</td><td class="num">${s.price.toLocaleString()}</td><td class="center">${q}</td><td class="num">${st.toLocaleString()}</td><td class="num">${cp.toLocaleString()}</td></tr>`;
-    });
+  let rT=0,rCp=0;
+  if(respRows.length){
+    respRows.forEach(s=>{const q=qtyMap[s.code]||0,cu=calcCopayPerUnit(s,c.incomeType),st=s.price*q,cp=cu*q;rT+=st;rCp+=cp;h+=`<tr><td>${s.name}</td><td class="num">${s.price.toLocaleString()}</td><td class="center">${q}</td><td class="num">${st.toLocaleString()}</td><td class="num">${cp.toLocaleString()}</td></tr>`;});
     h+=`<tr class="subtotal-row"><td colspan="3" style="text-align:center">喘息服務小計</td><td class="num">${rT.toLocaleString()}</td><td class="num"></td></tr>`;
   }
-
-  // 總計
-  const grand = cCp + rCp;
-  h+=`<tr class="total-row"><td colspan="3" style="text-align:center">總　計</td><td class="num">${(cT+rT).toLocaleString()}</td><td class="num" style="color:#d85a30;font-size:19px">${grand.toLocaleString()}</td></tr>`;
-  h+=`</tbody></table>`;
-  document.getElementById('print-table-wrap').innerHTML = h;
-
-  // 備註
-  const bcUsed = careRows.reduce((a,s)=>a+s.price*(qtyMap[s.code]||0),0);
-  const rem    = c.quota - bcUsed;
-  const nStr   = c.clientName ? `（${c.clientName}）` : '';
-  document.getElementById('print-note-text').innerHTML =
-    `※ BC 項月額度${nStr}：<strong>${c.quota.toLocaleString()}</strong> 元｜已使用：<strong>${bcUsed.toLocaleString()}</strong> 元｜餘額：<strong style="color:${rem<0?'red':'inherit'}">${rem.toLocaleString()}</strong> 元<br>` +
-    `※ AA 加計為政府全額補助，不計入個人額度及部分負擔。<br>` +
-    `※ 身分別：<strong>${c.incomeType}</strong>｜失能等級：<strong>第 ${c.disabilityLevel} 級</strong>｜計算基準：長照給付支付基準 109.05.19`;
+  const grand=cCp+rCp;
+  h+=`<tr class="total-row"><td colspan="3" style="text-align:center">總　計</td><td class="num">${(cT+rT).toLocaleString()}</td><td class="num" style="color:#d85a30;font-size:19px">${grand.toLocaleString()}</td></tr></tbody></table>`;
+  document.getElementById('print-table-wrap').innerHTML=h;
+  const bcUsed=careRows.reduce((a,s)=>a+s.price*(qtyMap[s.code]||0),0),rem=c.quota-bcUsed,nS=c.clientName?`（${c.clientName}）`:'';
+  document.getElementById('print-note-text').innerHTML=`※ BC 項月額度${nS}：<strong>${c.quota.toLocaleString()}</strong> 元｜已使用：<strong>${bcUsed.toLocaleString()}</strong> 元｜餘額：<strong style="color:${rem<0?'red':'inherit'}">${rem.toLocaleString()}</strong> 元<br>※ AA 加計為政府全額補助，不計入個人額度及部分負擔。<br>※ 身分別：<strong>${c.incomeType}</strong>｜失能等級：<strong>第 ${c.disabilityLevel} 級</strong>｜計算基準：長照給付支付基準 109.05.19`;
 }
 
 // ===================================================
-// 更新類別徽章
+// 警示
+// ===================================================
+function checkAlerts(c) {
+  const box=document.getElementById('alerts-box'),msgs=[];
+  if((qtyMap['BA04']||0)>0&&(qtyMap['BA05']||0)>0)msgs.push({t:'danger',m:'⛔ BA04（協助進食或管灌餵食）已含食物加熱，<strong>不得與 BA05（餐食照顧）同時申請</strong>，請擇一。'});
+  if((qtyMap['AA05']||0)>0){if(!c.hasDementia)msgs.push({t:'warning',m:'⚠ AA05：需「經確診之失智症患者」，請確認是否已設定。'});if(c.age<50)msgs.push({t:'warning',m:`⚠ AA05：需 50 歲以上，目前 ${c.age} 歲。`});}
+  if((qtyMap['AA07']||0)>0){if(c.disabilityLevel<4)msgs.push({t:'warning',m:`⚠ AA07：需失能 4 級以上，目前第 ${c.disabilityLevel} 級。`});if(c.caregiverAge<=75)msgs.push({t:'warning',m:`⚠ AA07：需家庭照顧者超過 75 歲，目前 ${c.caregiverAge} 歲。`});if((qtyMap['AA07']||0)>1)msgs.push({t:'danger',m:'⛔ AA07 每月僅可申請 <strong>1 次</strong>。'});}
+  const bcU=SERVICES.filter(s=>!s.govFull&&!s.useRespiteQuota).reduce((a,s)=>a+s.price*(qtyMap[s.code]||0),0);
+  if(bcU>c.quota&&c.quota>0)msgs.push({t:'danger',m:`⛔ BC項額度超支：已用 $${bcU.toLocaleString()}，月額 $${c.quota.toLocaleString()}，超出 $${(bcU-c.quota).toLocaleString()}。`});
+  const tips=[];
+  if(c.hasDementia&&c.age>=50&&!(qtyMap['AA05']||0))tips.push('AA05 照顧困難加計');
+  if(c.disabilityLevel>=4&&c.caregiverAge>75&&!(qtyMap['AA07']||0))tips.push('AA07 家庭照顧功能微弱加計');
+  if(tips.length)msgs.push({t:'info',m:'💡 符合加計資格但尚未選用：<strong>'+tips.join('、')+'</strong>（政府全額補助，建議申請）'});
+  box.style.display=msgs.length?'block':'none';
+  box.innerHTML=msgs.map(m=>`<div class="alert alert-${m.t}"><span class="alert-icon">${m.t==='danger'?'🚫':m.t==='warning'?'⚠️':'💡'}</span><div>${m.m}</div></div>`).join('');
+}
+
+// ===================================================
+// 徽章更新
 // ===================================================
 function updateBadges(c) {
-  const map = {BA:'badge-BA',BB:'badge-BB',BC:'badge-BC',BD:'badge-BD',C:'badge-C',DA:'badge-DA',GA:'badge-GA'};
-  Object.entries(map).forEach(([cat,id]) => {
-    const b = document.getElementById(id); if (!b) return;
-    const used = SERVICES.filter(s=>s.cat===cat&&(qtyMap[s.code]||0)>0);
-    const cp   = used.reduce((a,s)=>a+calcCopayPerUnit(s,c.incomeType)*(qtyMap[s.code]||0),0);
-    b.textContent = used.length ? `已選 ${used.length} 項 · 自付 $${cp.toLocaleString()}` : '未選';
+  Object.keys(CAT_META).forEach(cat=>{
+    const b=document.getElementById('badge-'+cat);if(!b)return;
+    const used=SERVICES.filter(s=>s.cat===cat&&(qtyMap[s.code]||0)>0);
+    const cp=used.reduce((a,s)=>a+calcCopayPerUnit(s,c.incomeType)*(qtyMap[s.code]||0),0);
+    b.textContent=used.length?`已選 ${used.length} 項 · 自付 $${cp.toLocaleString()}`:'未選';
   });
 }
 
 // ===================================================
-// 警示訊息
-// ===================================================
-function checkAlerts(c) {
-  const box = document.getElementById('alerts-box');
-  const msgs = [];
-  if ((qtyMap['BA04']||0)>0&&(qtyMap['BA05']||0)>0)
-    msgs.push({t:'danger',m:'⛔ BA04（協助進食或管灌餵食）已含食物加熱，<strong>不得與 BA05（餐食照顧）同時申請</strong>，請擇一。'});
-  if ((qtyMap['AA05']||0)>0) {
-    if (!c.hasDementia) msgs.push({t:'warning',m:'⚠ AA05：需「經確診之失智症患者」，請確認是否已設定。'});
-    if (c.age<50)       msgs.push({t:'warning',m:`⚠ AA05：需 50 歲以上，目前案主年齡 ${c.age} 歲。`});
-  }
-  if ((qtyMap['AA07']||0)>0) {
-    if (c.disabilityLevel<4)  msgs.push({t:'warning',m:`⚠ AA07：需失能 4 級以上，目前第 ${c.disabilityLevel} 級。`});
-    if (c.caregiverAge<=75)   msgs.push({t:'warning',m:`⚠ AA07：需家庭照顧者超過 75 歲，目前 ${c.caregiverAge} 歲。`});
-    if ((qtyMap['AA07']||0)>1) msgs.push({t:'danger',m:'⛔ AA07 每月僅可申請 <strong>1 次</strong>，目前次數超限。'});
-  }
-  const bcU = SERVICES.filter(s=>!s.govFull&&!s.useRespiteQuota).reduce((a,s)=>a+s.price*(qtyMap[s.code]||0),0);
-  if (bcU>c.quota&&c.quota>0) msgs.push({t:'danger',m:`⛔ BC項額度超支：已用 $${bcU.toLocaleString()}，月額 $${c.quota.toLocaleString()}，超出 $${(bcU-c.quota).toLocaleString()}。`});
-  const tips=[];
-  if (c.hasDementia&&c.age>=50&&!(qtyMap['AA05']||0)) tips.push('AA05 照顧困難加計（失智症）');
-  if (c.disabilityLevel>=4&&c.caregiverAge>75&&!(qtyMap['AA07']||0)) tips.push('AA07 家庭照顧功能微弱加計');
-  if (tips.length) msgs.push({t:'info',m:'💡 符合加計資格但尚未選用：<strong>'+tips.join('、')+'</strong>（政府全額補助，建議申請）'});
-  box.style.display = msgs.length?'block':'none';
-  box.innerHTML = msgs.map(m=>`<div class="alert alert-${m.t}"><span class="alert-icon">${m.t==='danger'?'🚫':m.t==='warning'?'⚠️':'💡'}</span><div>${m.m}</div></div>`).join('');
-}
-
-// ===================================================
-// 主要事件
+// 主計算入口
 // ===================================================
 function recalc() {
-  const c = getConditions();
+  const c=getConditions();
   renderTables();
   checkAlerts(c);
   updateSummaryBar(c);
@@ -748,37 +739,239 @@ function recalc() {
   buildPrintTable(c);
 }
 
-function onQtyChange(code, val) {
-  let n = Math.max(0, parseInt(val)||0);
-  const s = SERVICES.find(x=>x.code===code);
-  if (s&&s.maxUnits&&n>s.maxUnits) n=s.maxUnits;
+function onQtyChange(code,val) {
+  let n=Math.max(0,parseInt(val)||0);
+  const s=SERVICES.find(x=>x.code===code);
+  if(s&&s.maxUnits>0&&n>s.maxUnits)n=s.maxUnits;
   qtyMap[code]=n;
-  const inp=document.getElementById('qty-'+code);
-  if (inp) inp.value=n;
+  const inp=document.getElementById('qty-'+code);if(inp)inp.value=n;
   recalc();
 }
 
-// 歸零計算：清除所有次數
-function resetAll() {
-  if (!confirm('確定要將所有服務次數歸零嗎？')) return;
-  SERVICES.forEach(s=>{ qtyMap[s.code]=0; });
+function resetAll(){if(!confirm('確定要將所有服務次數歸零嗎？'))return;SERVICES.forEach(s=>{qtyMap[s.code]=0;});recalc();}
+function onLevelChange(){autoFillQuota();recalc();}
+function autoFillQuota(){const lv=parseInt(document.getElementById('disabilityLevel').value),q=QUOTA_BY_LEVEL[lv]||0;document.getElementById('monthlyQuota').value=q;document.getElementById('quotaHint').textContent=`失能第 ${lv} 級建議額度：$${q.toLocaleString()}`;}
+function toggleCard(h){h.classList.toggle('open');const b=h.nextElementSibling;if(b)b.style.display=b.style.display==='none'?'':'none';}
+
+// ===================================================
+// 管理面板
+// ===================================================
+let mgrCatFilter='ALL';
+
+function openManager(){document.getElementById('mgr-overlay').classList.add('show');buildCatTabs();renderMgrTable();}
+function closeManager(){document.getElementById('mgr-overlay').classList.remove('show');}
+function closeMgrIfBg(e){if(e.target===document.getElementById('mgr-overlay'))closeManager();}
+
+function buildCatTabs(){
+  const tabs=document.getElementById('cat-tabs');
+  const cats=['ALL',...Object.keys(CAT_META)];
+  tabs.innerHTML=cats.map(c=>{
+    const label=c==='ALL'?'全部':CAT_META[c]?.label||c;
+    const cnt=c==='ALL'?SERVICES_DATA.length:SERVICES_DATA.filter(s=>s.cat===c).length;
+    return `<button class="cat-tab ${mgrCatFilter===c?'active':''}" onclick="setCatFilter('${c}')">${label} <span style="opacity:.6">(${cnt})</span></button>`;
+  }).join('');
+}
+
+function setCatFilter(cat){mgrCatFilter=cat;buildCatTabs();renderMgrTable();}
+
+function renderMgrTable(){
+  const q=(document.getElementById('mgr-search')?.value||'').trim().toLowerCase();
+  let data=SERVICES_DATA;
+  if(mgrCatFilter!=='ALL')data=data.filter(s=>s.cat===mgrCatFilter);
+  if(q)data=data.filter(s=>s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q));
+  document.getElementById('mgr-count').textContent=`共 ${data.length} 筆`;
+  const empty=document.getElementById('mgr-empty');
+  const tbody=document.getElementById('mgr-tbody');
+  if(!data.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=data.map(s=>{
+    const flags=[
+      s.govFull?`<span class="flag-badge flag-gov">政府全補</span>`:'',
+      s.special==='public50'?`<span class="flag-badge flag-pub">五五分</span>`:'',
+      s.useRespiteQuota?`<span class="flag-badge flag-resp">喘息額度</span>`:'',
+      s.eligibleType?`<span class="flag-badge" style="background:#ede;color:#636">資格限制</span>`:'',
+    ].filter(Boolean).join('');
+    return `<tr>
+      <td class="code-cell">${s.code}</td>
+      <td><span class="badge badge-used" style="font-size:12px">${CAT_META[s.cat]?.label||s.cat}</span></td>
+      <td>${s.name}</td>
+      <td class="price-cell">$${s.price.toLocaleString()}</td>
+      <td>${flags||'—'}</td>
+      <td class="actions">
+        <button class="btn-edit" onclick="openForm('${s.code}')">✏ 修改</button>
+        <button class="btn-del"  onclick="deleteService('${s.code}')">🗑 刪除</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ===================================================
+// 新增/編輯 Form
+// ===================================================
+let editingCode = null; // null = 新增，有值 = 修改中
+
+function openForm(code) {
+  editingCode = code;
+  const s = code ? SERVICES_DATA.find(x=>x.code===code) : null;
+  document.getElementById('form-title').textContent = s ? `修改服務項目：${code}` : '新增服務項目';
+  document.getElementById('f-code').value        = s ? s.code : '';
+  document.getElementById('f-cat').value         = s ? s.cat : 'BA';
+  document.getElementById('f-name').value        = s ? s.name : '';
+  document.getElementById('f-price').value       = s ? s.price : '';
+  document.getElementById('f-maxUnits').value    = s ? (s.maxUnits||'') : '';
+  document.getElementById('f-special').value     = s ? (s.special||'') : '';
+  document.getElementById('f-govFull').value     = s&&s.govFull ? '1' : '0';
+  document.getElementById('f-respite').value     = s&&s.useRespiteQuota ? '1' : '0';
+  document.getElementById('f-eligible').value    = s ? (s.eligibleType||'') : '';
+  document.getElementById('f-conflicts').value   = s&&s.conflicts?.length ? s.conflicts.join(',') : '';
+  document.getElementById('f-conflictNote').value= s ? (s.conflictNote||'') : '';
+  document.getElementById('f-note').value        = s ? (s.note||'') : '';
+  document.getElementById('form-overlay').classList.add('show');
+}
+
+function closeForm(){document.getElementById('form-overlay').classList.remove('show');}
+function closeFormIfBg(e){if(e.target===document.getElementById('form-overlay'))closeForm();}
+
+function saveForm() {
+  const code  = document.getElementById('f-code').value.trim();
+  const name  = document.getElementById('f-name').value.trim();
+  const price = parseInt(document.getElementById('f-price').value)||0;
+  const cat   = document.getElementById('f-cat').value;
+
+  // 基本驗證
+  if (!code) { alert('請填入服務代碼'); return; }
+  if (!name) { alert('請填入服務名稱'); return; }
+  if (price<=0) { alert('請填入正確單價'); return; }
+
+  // 若代碼已存在且不是正在修改的那筆 → 詢問是否覆蓋
+  const existIdx = SERVICES_DATA.findIndex(s=>s.code===code);
+  if (existIdx>=0 && code!==editingCode) {
+    if (!confirm(`代碼 "${code}" 已存在，確定要覆蓋嗎？`)) return;
+  }
+
+  const conflictsRaw = document.getElementById('f-conflicts').value;
+  const newRecord = {
+    code,
+    name,
+    cat,
+    price,
+    govFull:         document.getElementById('f-govFull').value==='1',
+    special:         document.getElementById('f-special').value,
+    useRespiteQuota: document.getElementById('f-respite').value==='1',
+    maxUnits:        parseInt(document.getElementById('f-maxUnits').value)||0,
+    conflicts:       conflictsRaw ? conflictsRaw.split(',').map(x=>x.trim()).filter(Boolean) : [],
+    conflictNote:    document.getElementById('f-conflictNote').value.trim(),
+    eligibleType:    document.getElementById('f-eligible').value,
+    note:            document.getElementById('f-note').value.trim(),
+  };
+
+  // 若修改舊代碼且新代碼不同，先移除舊的
+  if (editingCode && editingCode!==code) {
+    const oldIdx=SERVICES_DATA.findIndex(s=>s.code===editingCode);
+    if(oldIdx>=0) SERVICES_DATA.splice(oldIdx,1);
+    delete qtyMap[editingCode];
+  }
+
+  // 插入或更新
+  const idx=SERVICES_DATA.findIndex(s=>s.code===code);
+  if(idx>=0) SERVICES_DATA[idx]=newRecord;
+  else SERVICES_DATA.push(newRecord);
+
+  saveServicesData();
+  SERVICES = buildServices(SERVICES_DATA);
+
+  closeForm();
+  buildCatTabs();
+  renderMgrTable();
+  // 重新渲染計算器
+  renderServiceCards();
   recalc();
 }
 
-function onLevelChange() { autoFillQuota(); recalc(); }
-function autoFillQuota() {
-  const lv = parseInt(document.getElementById('disabilityLevel').value);
-  const q  = QUOTA_BY_LEVEL[lv]||0;
-  document.getElementById('monthlyQuota').value=q;
-  document.getElementById('quotaHint').textContent=`失能第 ${lv} 級建議額度：$${q.toLocaleString()}`;
-}
-function toggleCard(h) {
-  h.classList.toggle('open');
-  const b=h.nextElementSibling;
-  if(b) b.style.display=b.style.display==='none'?'':('none');
+// ===================================================
+// 刪除
+// ===================================================
+function deleteService(code) {
+  const s=SERVICES_DATA.find(x=>x.code===code);
+  if (!s) return;
+  if (!confirm(`確定要刪除「${s.name}（${code}）」嗎？\n若該項目有填入次數，將一併清除。`)) return;
+  SERVICES_DATA=SERVICES_DATA.filter(x=>x.code!==code);
+  delete qtyMap[code];
+  saveServicesData();
+  SERVICES=buildServices(SERVICES_DATA);
+  buildCatTabs();
+  renderMgrTable();
+  renderServiceCards();
+  recalc();
 }
 
+// ===================================================
+// 還原預設
+// ===================================================
+function resetToDefault() {
+  if (!confirm('確定要還原全部預設服務資料嗎？\n您自行新增／修改的內容將全部清除！')) return;
+  SERVICES_DATA=DEFAULT_SERVICES_DATA.map(s=>({...s}));
+  saveServicesData();
+  SERVICES=buildServices(SERVICES_DATA);
+  // 清除所有次數
+  Object.keys(qtyMap).forEach(k=>delete qtyMap[k]);
+  buildCatTabs();
+  renderMgrTable();
+  renderServiceCards();
+  recalc();
+  alert('已還原為系統預設服務資料。');
+}
+
+// ===================================================
+// 匯出 JSON
+// ===================================================
+function exportJSON() {
+  const json=JSON.stringify(SERVICES_DATA,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  const d=new Date(),ds=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  a.download=`長照服務資料_${ds}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ===================================================
+// 匯入 JSON
+// ===================================================
+function importJSON(event) {
+  const file=event.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try {
+      const data=JSON.parse(e.target.result);
+      if(!Array.isArray(data)||!data.length) throw new Error('格式錯誤');
+      // 基本欄位驗證
+      const ok=data.every(s=>s.code&&s.name&&typeof s.price==='number'&&s.cat);
+      if(!ok) throw new Error('部分資料缺少必要欄位（code/name/price/cat）');
+      if(!confirm(`確定匯入 ${data.length} 筆服務資料嗎？\n目前資料將被覆蓋！`)) return;
+      SERVICES_DATA=data.map(s=>({...s,conflicts:s.conflicts||[]}));
+      saveServicesData();
+      SERVICES=buildServices(SERVICES_DATA);
+      Object.keys(qtyMap).forEach(k=>delete qtyMap[k]);
+      buildCatTabs();
+      renderMgrTable();
+      renderServiceCards();
+      recalc();
+      alert(`✅ 成功匯入 ${data.length} 筆服務資料！`);
+    } catch(err) {
+      alert('❌ 匯入失敗：'+err.message);
+    }
+    event.target.value='';
+  };
+  reader.readAsText(file,'utf-8');
+}
+
+// ===================================================
 // 初始化
+// ===================================================
+renderServiceCards();
 autoFillQuota();
 recalc();
 </script>
