@@ -26,6 +26,21 @@ body{font-family:'Noto Sans TC','微軟正黑體','蘋方-繁',system-ui,sans-se
 .btn-hdr.manage{background:rgba(255,200,50,.2);border-color:rgba(255,200,50,.8);}
 .btn-hdr.manage:hover{background:rgba(255,200,50,.35);}
 
+/* 預設顯示長版按鈕文字，隱藏短版 */
+.btn-short{display:none;}
+.btn-long{display:inline;}
+
+/* ===== 手機版標題列（螢幕寬度 ≤ 600px）===== */
+@media (max-width:600px){
+  .page-header{padding:8px 10px;flex-wrap:nowrap;gap:6px;}
+  .page-header h1{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .page-header .version{display:none;}          /* 隱藏版本號節省空間 */
+  .btn-hdr{padding:5px 9px;font-size:13px;border-radius:6px;white-space:nowrap;}
+  /* 手機版按鈕改顯示短文字 */
+  .btn-long{display:none;}
+  .btn-short{display:inline;}
+}
+
 .container{max-width:1000px;margin:0 auto;padding:16px 14px 90px;}
 
 /* ===== Card ===== */
@@ -194,8 +209,8 @@ body{font-family:'Noto Sans TC','微軟正黑體','蘋方-繁',system-ui,sans-se
 <header class="page-header">
   <span style="font-size:24px">🏥</span>
   <h1>台灣長照組合計算系統<span class="version">v2.0</span></h1>
-  <button class="btn-hdr manage" onclick="openManager()">⚙ 管理服務項目</button>
-  <button class="btn-hdr" onclick="resetAll()">⟳ 歸零計算</button>
+  <button class="btn-hdr manage" onclick="openManager()">⚙ <span class="btn-long">管理服務項目</span><span class="btn-short">管理</span></button>
+  <button class="btn-hdr reset" onclick="resetAll()">⟳ <span class="btn-long">歸零計算</span><span class="btn-short">歸零</span></button>
 </header>
 
 <div class="container">
